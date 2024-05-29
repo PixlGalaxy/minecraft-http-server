@@ -1,0 +1,35 @@
+
+body {
+    font-family: 'Minecraftia', sans-serif;
+    background-color: #cdfff3;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.banner {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.banner img {
+    max-width: 100%;
+    height: auto;
+}
+.event-details {
+    text-align: left;
+}
+.event-details h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.event-details p {
+    margin-bottom: 5px;
+}
+.event-details ul {
+    list-style-type: square;
+    padding-left: 20px;
+    text-align: left; 
+}
