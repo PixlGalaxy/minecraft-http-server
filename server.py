@@ -149,7 +149,7 @@ def handle_static_file_request(file_path, client_socket):
         http_response = f"HTTP/1.1 200 OK\r\nContent-Length: {len(file_content)}\r\nContent-Type: text/css\r\n\r\n".encode() + file_content
         client_socket.sendall(http_response)
     except FileNotFoundError:
-        print(f"Archivo estático no encontrado: {file_path}")
+        print(f"Static File Not Found: {file_path}")
         http_response = b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n"
         client_socket.sendall(http_response)
 
