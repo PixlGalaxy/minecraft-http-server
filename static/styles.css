@@ -1,35 +1,31 @@
 
-body {
-    font-family: 'Minecraftia', sans-serif;
-    background-color: #cdfff3;
-    margin: 0;
-    padding: 0;
+/* Additional styles for older browsers compatibility */
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
 }
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 212, 255, 0.1);
 }
-.banner {
-    text-align: center;
-    margin-bottom: 20px;
+
+::-webkit-scrollbar-thumb {
+    background: #00d4ff;
+    border-radius: 5px;
 }
-.banner img {
-    max-width: 100%;
-    height: auto;
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00a8cc;
 }
-.event-details {
-    text-align: left;
+
+/* Selection styling */
+::selection {
+    background: #00d4ff;
+    color: #1a1a2e;
 }
-.event-details h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-.event-details p {
-    margin-bottom: 5px;
-}
-.event-details ul {
-    list-style-type: square;
-    padding-left: 20px;
-    text-align: left; 
+
+::-moz-selection {
+    background: #00d4ff;
+    color: #1a1a2e;
 }

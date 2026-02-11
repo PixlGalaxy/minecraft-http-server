@@ -1,33 +1,459 @@
-<!-- You can modify this HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Page Title</title>
-    <link rel="icon" href="galaxy.ico" type="image/x-icon"> <!-- Page favicon -->
-    <link rel="stylesheet" type="text/css" href="styles.css">
-   
+    <title>Minecraft Server</title>
+    <link rel="icon" href="/static/resources/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ecf0f1;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 3px solid #00d4ff;
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #bdc3c7;
+            margin-bottom: 40px;
+        }
+
+        /* Server Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 60px 0;
+            padding: 0 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-card svg {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            color: #00d4ff;
+            stroke-width: 1.5;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        /* Details Section */
+        .details-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #00d4ff;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .details-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #00d4ff;
+        }
+
+        .details-section h2 svg {
+            width: 35px;
+            height: 35px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item svg {
+            width: 24px;
+            height: 24px;
+            color: #00d4ff;
+            flex-shrink: 0;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 18px;
+            color: #ecf0f1;
+            margin-top: 3px;
+        }
+
+        /* Activity Log */
+        .activity-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #00d4ff;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .activity-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #00d4ff;
+        }
+
+        .activity-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 12px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .activity-item svg {
+            width: 20px;
+            height: 20px;
+            color: #00d4ff;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-time {
+            color: #95a5a6;
+            font-size: 12px;
+        }
+
+        .activity-type {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .activity-ip {
+            color: #bdc3c7;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid #00d4ff;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+            color: #95a5a6;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .details-section,
+            .activity-section {
+                padding: 20px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="banner">
-            <img src="banner.webp" alt="UHC Banner" class="centered-image">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><path d="M12 1v6m0 6v6"></path><path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path><path d="M1 12h6m6 0h6"></path><path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path></svg>
+                Minecraft Server
+            </div>
         </div>
-        <div class="event-details">
-            <h2 style="font-family: 'Minecraftia', sans-serif;">HTML File</h2>
-            <p><strong>A Date:</strong> 04/05/2024 </p>
-            <p><strong>List:</strong></p>
-            <ul> 
-                <li>Hello World, This Is A List.</li>
-                <li>1234.</li>
-            </ul>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero">
+                <h1>🎮 Welcome to Minecraft Server</h1>
+                <p>A powerful Minecraft and HTTP server running on the same port</p>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card" id="motd-card">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                    <div class="stat-label">Server MOTD</div>
+                    <div class="stat-value">{{ motd }}</div>
+                </div>
+
+                <div class="stat-card">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline><line x1="12" y1="12" x2="20" y2="7.5"></line><line x1="12" y1="12" x2="12" y2="21"></line><line x1="12" y1="12" x2="4" y2="7.5"></line></svg>
+                    <div class="stat-label">Minecraft Version</div>
+                    <div class="stat-value">{{ version }}</div>
+                </div>
+
+                <div class="stat-card">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><path d="M12 1v6m0 6v6"></path><path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path><path d="M1 12h6m6 0h6"></path><path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path></svg>
+                    <div class="stat-label">Max Players</div>
+                    <div class="stat-value">{{ max_players }}</div>
+                </div>
+            </section>
+
+            <section class="details-section">
+                <h2>
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    Server Information
+                </h2>
+
+                <div class="detail-item">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <div class="detail-content">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value"><span class="loading"></span> Online</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <div class="detail-content">
+                        <div class="detail-label">Protocol</div>
+                        <div class="detail-value">Minecraft + HTTP Dual Protocol</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><path d="M12 1v6m0 6v6"></path><path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path><path d="M1 12h6m6 0h6"></path><path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path></svg>
+                    <div class="detail-content">
+                        <div class="detail-label">Network</div>
+                        <div class="detail-value">Listening on all interfaces</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                    <div class="detail-content">
+                        <div class="detail-label">Features</div>
+                        <div class="detail-value">Dual Protocol, Real-time Stats, Activity Logging</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="activity-section">
+                <h2>
+                    <svg stroke="currentColor" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    Recent Activity
+                </h2>
+                <div class="activity-list" id="activity-log">
+                    <div class="activity-item">
+                        <svg stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><path d="M12 1v6m0 6v6"></path><path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path><path d="M1 12h6m6 0h6"></path><path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path></svg>
+                        <div class="activity-content">
+                            <div><span class="activity-type">Server Started</span> - Loading activity log...</div>
+                            <div class="activity-time">Just now</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
+
     <footer>
-        <p>Minecraft/HTTP Server Developed By: <a href="https://github.com/PixlGalaxy">PixlGalaxy</a></p>
-        <p>Developed Using Python & Socket</p>
+        <div class="container">
+            <p>⚡ Minecraft/HTTP Server | Developed with Python & Flask</p>
+            <p style="margin-top: 10px; font-size: 12px;">© 2024 - All rights reserved | Using configuration from .env</p>
+        </div>
     </footer>
-    
+
+    <script>
+        // Lucide icons initialization
+        lucide.createIcons();
+
+        // Fetch and update stats
+        async function updateStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                document.getElementById('motd-card').querySelector('.stat-value').textContent = data.motd;
+            } catch (error) {
+                console.log('Stats update scheduled');
+            }
+        }
+
+        // Fetch and update activity log
+        async function updateActivity() {
+            try {
+                const response = await fetch('/api/connections');
+                const data = await response.json();
+                
+                const activityLog = document.getElementById('activity-log');
+                if (data.connections && data.connections.length > 0) {
+                    activityLog.innerHTML = data.connections.slice().reverse().map(conn => `
+                        <div class="activity-item">
+                            <svg stroke="currentColor" viewBox="0 0 24 24">
+                                ${conn.type === 'MINECRAFT' ? 
+                                    '<circle cx="12" cy="12" r="10"></circle><polyline points="8 12 12 16 16 12"></polyline>' :
+                                    '<circle cx="12" cy="12" r="10"></circle><polyline points="8 14 12 10 16 14"></polyline>'}
+                            </svg>
+                            <div class="activity-content">
+                                <div>
+                                    <span class="activity-type">${conn.type}</span> Connection from 
+                                    <span class="activity-ip">${conn.ip}</span> - ${conn.message}
+                                </div>
+                                <div class="activity-time">${new Date(conn.timestamp).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.log('Activity update in progress...');
+            }
+        }
+
+        // Update stats every 5 seconds
+        updateStats();
+        updateActivity();
+        setInterval(updateStats, 5000);
+        setInterval(updateActivity, 3000);
+    </script>
 </body>
 </html>
