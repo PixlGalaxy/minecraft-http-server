@@ -16,7 +16,7 @@ SERVER_PORT = int(os.getenv('SERVER_PORT', 12505))
 HOST = os.getenv('HOST', '0.0.0.0')
 
 # Minecraft Server Details
-Minecraft_Server_ConnectionMessage = os.getenv('MINECRAFT_CONNECTION_MESSAGE', 'Welcome to the server!')
+Minecraft_Server_ConnectionMessage = os.getenv('MINECRAFT_CONNECTION_MESSAGE', 'Welcome to the server!').encode().decode('unicode_escape')
 Minecraft_Server_MOTD = os.getenv('MINECRAFT_MOTD', 'A Simple HTTP/MINECRAFT Server')
 Minecraft_Server_Max_Players = int(os.getenv('MINECRAFT_MAX_PLAYERS', 100))
 Minecraft_Server_Online_Players = int(os.getenv('MINECRAFT_ONLINE_PLAYERS', 1))
