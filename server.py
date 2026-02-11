@@ -6,6 +6,7 @@ import base64
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+import time
 
 # Load environment variables
 load_dotenv()
@@ -17,10 +18,36 @@ HOST = os.getenv('HOST', '0.0.0.0')
 # Minecraft Server Details
 Minecraft_Server_ConnectionMessage = os.getenv('MINECRAFT_CONNECTION_MESSAGE', 'Welcome to the server!')
 Minecraft_Server_MOTD = os.getenv('MINECRAFT_MOTD', 'A Simple HTTP/MINECRAFT Server')
-Minecraft_Server_Version = os.getenv('MINECRAFT_VERSION', '1.20.1')
 Minecraft_Server_Max_Players = int(os.getenv('MINECRAFT_MAX_PLAYERS', 100))
 Minecraft_Server_Online_Players = int(os.getenv('MINECRAFT_ONLINE_PLAYERS', 1))
 Minecraft_Server_ICONPNG = os.getenv('MINECRAFT_ICON_PATH', './static/resources/favicon.png')
+Minecraft_Server_Version = os.getenv('MINECRAFT_VERSION', '1.20.1')
+
+# Event Configuration
+EVENT_TITLE = os.getenv('EVENT_TITLE', 'UHC EVENT')
+EVENT_DATE = os.getenv('EVENT_DATE', '2026-02-15T19:00:00')
+EVENT_DATE_FORMATTED = os.getenv('EVENT_DATE_FORMATTED', '15 de Febrero de 2026')
+EVENT_OPEN_TIME = os.getenv('EVENT_OPEN_TIME', '18:00')
+EVENT_START_TIME = os.getenv('EVENT_START_TIME', '19:00')
+EVENT_VERSION = os.getenv('EVENT_VERSION', '1.20.1')
+EVENT_FORMAT = os.getenv('EVENT_FORMAT', 'Duos')
+EVENT_IP = os.getenv('EVENT_IP', 'zaylar.itzgalaxy.com:12505')
+EVENT_DISCORD = os.getenv('EVENT_DISCORD', 'https://discord.gg/example')
+
+# Horarios por zona
+PERU_TIME = os.getenv('PERU_TIME', '18:00')
+ARGENTINA_TIME = os.getenv('ARGENTINA_TIME', '20:00')
+USA_TIME = os.getenv('USA_TIME', '19:00')
+LA_TIME = os.getenv('LA_TIME', '16:00')
+MEXICO_TIME = os.getenv('MEXICO_TIME', '17:00')
+SPAIN_TIME = os.getenv('SPAIN_TIME', '01:00')
+
+# Calculate event timestamp (Unix milliseconds for JavaScript)
+try:
+    event_datetime = datetime.strptime(EVENT_DATE, '%Y-%m-%dT%H:%M:%S')
+    EVENT_TIMESTAMP_MS = int(event_datetime.timestamp() * 1000)
+except:
+    EVENT_TIMESTAMP_MS = int(datetime.now().timestamp() * 1000)
 
 # Server statistics
 server_stats = {
@@ -236,7 +263,7 @@ def handle_http_request(request_text, client_socket, address):
             handle_static_file_request(f"./static{path}", client_socket)
             return
         
-        if path.endswith('.ico') or path.endswith('.png') or path.endswith('.jpg'):
+        if path.endswith('.ico') or path.endswith('.png') or path.endswith('.jpg') or path.endswith('.webp'):
             handle_static_file_request(f"./static/resources/{path.split('/')[-1]}", client_socket)
             return
         
@@ -270,9 +297,24 @@ def handle_http_request(request_text, client_socket, address):
                 html_content = f.read()
             
             # Replace template variables
-            html_content = html_content.replace('{{ motd }}', Minecraft_Server_MOTD)
-            html_content = html_content.replace('{{ version }}', Minecraft_Server_Version)
-            html_content = html_content.replace('{{ max_players }}', str(Minecraft_Server_Max_Players))
+            html_content = html_content.replace('{{ event_title }}', EVENT_TITLE)
+            html_content = html_content.replace('{{ event_date }}', EVENT_DATE)
+            html_content = html_content.replace('{{ event_timestamp_ms }}', str(EVENT_TIMESTAMP_MS))
+            html_content = html_content.replace('{{ event_date_formatted }}', EVENT_DATE_FORMATTED)
+            html_content = html_content.replace('{{ event_open_time }}', EVENT_OPEN_TIME)
+            html_content = html_content.replace('{{ event_start_time }}', EVENT_START_TIME)
+            html_content = html_content.replace('{{ event_version }}', EVENT_VERSION)
+            html_content = html_content.replace('{{ event_format }}', EVENT_FORMAT)
+            html_content = html_content.replace('{{ event_ip }}', EVENT_IP)
+            html_content = html_content.replace('{{ event_discord }}', EVENT_DISCORD)
+            
+            # Horarios
+            html_content = html_content.replace('{{ peru_time }}', PERU_TIME)
+            html_content = html_content.replace('{{ argentina_time }}', ARGENTINA_TIME)
+            html_content = html_content.replace('{{ usa_time }}', USA_TIME)
+            html_content = html_content.replace('{{ la_time }}', LA_TIME)
+            html_content = html_content.replace('{{ mexico_time }}', MEXICO_TIME)
+            html_content = html_content.replace('{{ spain_time }}', SPAIN_TIME)
             
             http_response = f"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {len(html_content)}\r\nConnection: close\r\n\r\n{html_content}"
             client_socket.sendall(http_response.encode('utf-8'))
